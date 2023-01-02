@@ -1,0 +1,33 @@
+/*
+1.Hаписать пpогpамму пословного (подстрочного) пеpевода
+пpедложения, представленного в виде списка слов, с англий-
+ского на фpанцузский (или любой другой) язык.
+
+Запрос: transl([example, sentence, for, translation], X)
+Запрос: transl2([example, sentence, for, translation], Y)
+2.Опpеделить последний элемент списка.
+
+Запрос: lastElement([10,20,30,5,40]) 
+*/
+
+word(example , 'exemple').
+word(sentence, 'ouvertures').
+word(for, 'pour').
+word(translation, 'traduction').
+
+transl([X|T], [Y|T]):-
+    word(X,Y).
+transl([X|T], [Y|R]):-
+    word(X, Y),
+    transl(T, R).
+
+transl2([X|T], [Y|T]):-
+    word(X,Y).
+transl2([H|X], [H|Y]):-
+    transl2(X,Y).
+
+%последний элемент списка
+lastElement([Head]) :- write(Head).
+lastElement([_|Tail]):-
+    lastElement(Tail).
+
