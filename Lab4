@@ -1,0 +1,33 @@
+/*
+Расставить максимальное число белых ладей,
+чтобы они не били друг друга.
+
+Запрос: arrange(X) 
+*/
+%генерация доски
+chess_desk([]).
+chess_desk([X | T]) :- 
+    between(1, 8, Y),
+    between(1, 8, Z),
+    X = [Y, Z],
+    chess_desk(T).
+
+%максимальное число ладей на доске - 8
+optimize([[1, _], [2, _], [3, _], [4, _], [5, _], [6, _], [7, _], [8, _]]).
+
+row_member(X, [[X, _] | _]).
+row_member(X, [_ | T]) :- row_member(X, T).
+
+column_member(X, [[_, X] | _]).
+column_member(X, [_ | T]) :- column_member(X, T).
+
+hits_other([]).
+hits_other([[Row, Col] | T]) :-
+    not(row_member(Row, T)),
+    not(column_member(Col, T)),
+    hits_other(T).
+
+arrange(X) :-
+    optimize(X),
+    chess_desk(X),
+    hits_other(X).
